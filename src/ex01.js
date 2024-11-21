@@ -4,6 +4,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+
 
 // ----- 주제: glb 파일 불러오기
 
@@ -27,8 +29,7 @@ export default function example() {
 		0.1,
 		1000
 	);
-	camera.position.y = 1.5;
-	camera.position.z = 4;
+	camera.position.set(3, 6, 5);
 	scene.add(camera);
 
 	// Light
@@ -42,6 +43,13 @@ export default function example() {
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
+
+	// GUI
+	const gui = new GUI();
+	const cameraGui = gui.addFolder('Camera');
+	cameraGui.add(camera.position, 'x', -10, 10, 0.01).name('position x');
+	cameraGui.add(camera.position, 'y', -10, 10, 0.01).name('position y');
+	cameraGui.add(camera.position, 'z', -10, 10, 0.01).name('position z');
 
 	// Animation
 	let mixer;
@@ -64,11 +72,20 @@ export default function example() {
 
 			scene.add(model);
 			mixer = new THREE.AnimationMixer(model);
-			const action = mixer.clipAction(gltf.animations[0]);
+			// const action = mixer.clipAction(gltf.animations[0]);
 
-			action.play();
-			action.clampWhenFinished = true;
-			action.loop = THREE.LoopOnce;
+			// action.play();
+			// action.clampWhenFinished = true;
+			// action.loop = THREE.LoopOnce;
+
+			gltf.animations.forEach((animation) => {
+				console.log(animation)
+				const action = mixer.clipAction(animation);
+
+				action.play();
+				action.clampWhenFinished = true;
+				action.loop = THREE.LoopOnce;
+			});
 		}
 	)
 
