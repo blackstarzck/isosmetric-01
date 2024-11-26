@@ -21,6 +21,7 @@ export default function example() {
 
 	// Scene
 	const scene = new THREE.Scene();
+	scene.background = new THREE.Color('white');
 
 	// Camera
 	const camera = new THREE.PerspectiveCamera(
@@ -33,7 +34,7 @@ export default function example() {
 	scene.add(camera);
 
 	// Light
-	const ambientLight = new THREE.AmbientLight('white', 0.5);
+	const ambientLight = new THREE.AmbientLight('white', 2);
 	scene.add(ambientLight);
 
 	const directionalLight = new THREE.DirectionalLight('white', 1);
